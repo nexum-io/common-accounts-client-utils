@@ -174,6 +174,52 @@ class CoreAccountsStorageClient {
   replaceOwnedMembers(ownedId, body) {
     return this.#request('PUT', `/internal/owned/${ownedId}/members`, { body });
   }
+
+  listNetworks(userSubject, query = {}) {
+    return this.#request('GET', '/networks', { userSubject, params: query });
+  }
+
+  createAccount(userSubject, body) {
+    return this.#request('POST', '/accounts', { userSubject, body });
+  }
+
+  listAccounts(userSubject, query) {
+    return this.#request('GET', '/accounts', { userSubject, params: query });
+  }
+
+  getAccount(userSubject, accountId) {
+    return this.#request('GET', `/accounts/${accountId}`, { userSubject });
+  }
+
+  patchAccount(userSubject, accountId, body) {
+    return this.#request('PATCH', `/accounts/${accountId}`, { userSubject, body });
+  }
+
+  archiveAccount(userSubject, accountId) {
+    return this.#request('DELETE', `/accounts/${accountId}`, { userSubject });
+  }
+
+  provisionAccount(userSubject, accountId, options = {}) {
+    return this.#request('POST', `/accounts/${accountId}/provision`, {
+      userSubject,
+      body: {},
+      options,
+    });
+  }
+
+  syncAccountBalances(userSubject, accountId) {
+    return this.#request('POST', `/accounts/${accountId}/balances/sync`, {
+      userSubject,
+      body: {},
+    });
+  }
+
+  reconcileAccount(userSubject, accountId) {
+    return this.#request('POST', `/accounts/${accountId}/reconcile`, {
+      userSubject,
+      body: {},
+    });
+  }
 }
 
 module.exports = { CoreAccountsStorageClient };
