@@ -195,6 +195,10 @@ class CoreAccountsStorageClient {
     return this.#request('PATCH', `/accounts/${accountId}`, { userSubject, body });
   }
 
+  patchAccountMeta(userSubject, accountId, body) {
+    return this.#request('PATCH', `/accounts/${accountId}/meta`, { userSubject, body });
+  }
+
   archiveAccount(userSubject, accountId) {
     return this.#request('DELETE', `/accounts/${accountId}`, { userSubject });
   }

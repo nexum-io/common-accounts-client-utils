@@ -185,12 +185,29 @@ describe('CoreAccountsStorageClient', () => {
 
   describe('patchAccount', () => {
     test('PATCHes /accounts/:id with body and X-User-Subject', async () => {
-      axios.patch.mockResolvedValue({ data: { data: { id: 'acct-1', label: 'Treasury' } } });
+      axios.patch.mockResolvedValue({ data: { data: { id: 'acct-1' } } });
       const client = buildClient();
-      await client.patchAccount('user-1', 'acct-1', { label: 'Treasury' });
+      await client.patchAccount('user-1', 'acct-1', { owners: ['0xabc'] });
       expect(axios.patch).toHaveBeenCalledWith(
         'http://accounts-storage.example:8093/api/v1/accounts/acct-1',
-        { label: 'Treasury' },
+        { owners: ['0xabc'] },
+        expect.objectContaining({
+          headers: expect.objectContaining({ 'X-User-Subject': 'user-1' }),
+        })
+      );
+    });
+  });
+
+  describe('patchAccountMeta', () => {
+    test('PATCHes /accounts/:id/meta with name/label and X-User-Subject', async () => {
+      axios.patch.mockResolvedValue({
+        data: { data: { id: 'acct-1', meta: { shortId: 'acc_AAAAAAAA', name: 'Treasury' } } },
+      });
+      const client = buildClient();
+      await client.patchAccountMeta('user-1', 'acct-1', { name: 'Treasury', label: null });
+      expect(axios.patch).toHaveBeenCalledWith(
+        'http://accounts-storage.example:8093/api/v1/accounts/acct-1/meta',
+        { name: 'Treasury', label: null },
         expect.objectContaining({
           headers: expect.objectContaining({ 'X-User-Subject': 'user-1' }),
         })

@@ -9,12 +9,12 @@ Exports only:
 
 Product adapters and domain error maps stay in each MS.
 
-**v0.1.0 scope:** storage client only. There is no `CoreAccountsProcessorClient` (or processor HTTP client) in this release — processor integration is deferred.
+**v0.2.0:** adds `CoreAccountsStorageClient#patchAccountMeta` (`PATCH /accounts/{id}/meta`, DEV-340). Storage client only — still no `CoreAccountsProcessorClient`.
 
 ## Install
 
 ```bash
-npm install github:nexum-io/common-accounts-client-utils#v0.1.0
+npm install github:nexum-io/common-accounts-client-utils#v0.2.0
 ```
 
 ## Usage
