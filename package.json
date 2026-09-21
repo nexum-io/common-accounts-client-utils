@@ -3,13 +3,23 @@
   "version": "0.2.0",
   "description": "S2S HTTP client for core-accounts-storage-ms",
   "main": "src/index.js",
-  "files": ["src", "README.md"],
-  "license": "MIT",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nexum-io/common-accounts-client-utils.git"
   },
-  "engines": { "node": ">=20" },
+  "bugs": {
+    "url": "https://github.com/nexum-io/common-accounts-client-utils/issues"
+  },
+  "homepage": "https://github.com/nexum-io/common-accounts-client-utils#readme",
+  "author": "nexum-io",
+  "license": "MIT",
   "scripts": {
     "test": "jest --coverage=false",
     "ci:check": "npm test"
@@ -22,6 +32,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testMatch": ["**/tests/**/*.test.js"]
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   }
 }
