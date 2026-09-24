@@ -108,7 +108,7 @@ describe('CoreAccountsStorageClient', () => {
   });
 
   describe('listNetworks', () => {
-    test('GETs /networks with X-User-Subject', async () => {
+    test('GETs /networks with X-User-Subject (legacy, no getDelegationJwt)', async () => {
       axios.get.mockResolvedValue({ data: { data: [{ id: 'polygon' }] } });
       const client = buildClient();
       const result = await client.listNetworks('user-1', { active: true });
@@ -120,6 +120,31 @@ describe('CoreAccountsStorageClient', () => {
           headers: expect.objectContaining({ 'X-User-Subject': 'user-1' }),
         })
       );
+      expect(axios.get.mock.calls[0][1].headers['X-Delegation-JWT']).toBeUndefined();
+    });
+
+    test('GETs /networks with X-Delegation-JWT when getDelegationJwt is set', async () => {
+      axios.get.mockResolvedValue({ data: { data: [{ id: 'polygon' }] } });
+      const getDelegationJwt = jest.fn(async () => 'test-delegation-jwt');
+      const client = buildClient({ getDelegationJwt });
+      await client.listNetworks('user-1');
+      expect(getDelegationJwt).toHaveBeenCalledWith({ userSubject: 'user-1' });
+      expect(axios.get).toHaveBeenCalledWith(
+        'http://accounts-storage.example:8093/api/v1/networks',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            'api-key': 'test-api-key',
+            'X-Delegation-JWT': 'test-delegation-jwt',
+          }),
+        })
+      );
+      expect(axios.get.mock.calls[0][1].headers['X-User-Subject']).toBeUndefined();
+    });
+
+    test('fails closed when getDelegationJwt returns empty', async () => {
+      const client = buildClient({ getDelegationJwt: async () => null });
+      await expect(client.listNetworks('user-1')).rejects.toThrow(/X-Delegation-JWT is required/);
+      expect(axios.get).not.toHaveBeenCalled();
     });
   });
 

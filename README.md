@@ -9,12 +9,12 @@ Exports only:
 
 Product adapters and domain error maps stay in each MS.
 
-**v0.2.0:** adds `CoreAccountsStorageClient#patchAccountMeta` (`PATCH /accounts/{id}/meta`, DEV-340). Storage client only — still no `CoreAccountsProcessorClient`.
+**v0.3.0 (ARCH-005):** optional constructor `getDelegationJwt`. When set, user-scoped methods send `X-Delegation-JWT` and **do not** send `X-User-Subject`. Without the callback, legacy `X-User-Subject` behavior remains (Escrow carve-out). Owned `/internal/*` methods never send either header.
 
 ## Install
 
 ```bash
-npm install github:nexum-io/common-accounts-client-utils#v0.2.0
+npm install github:nexum-io/common-accounts-client-utils#v0.3.0
 ```
 
 ## Usage
@@ -32,6 +32,8 @@ const client = new CoreAccountsStorageClient({
   timeoutMs: Number(process.env.CORE_ACCOUNTS_STORAGE_HTTP_TIMEOUT_MS) || 30000,
   maxRetries: Number(process.env.CORE_ACCOUNTS_STORAGE_HTTP_MAX_RETRIES) || 2,
   retryBaseDelayMs: Number(process.env.CORE_ACCOUNTS_STORAGE_RETRY_BASE_DELAY_MS) || 250,
+  // Business (ARCH-005): exchange access → delegation for aud=core-accounts-storage-ms
+  getDelegationJwt: async ({ userSubject }) => exchangeDelegationJwt({ userSubject }),
 });
 ```
 
