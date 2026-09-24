@@ -11,7 +11,8 @@ const BARE_ORIGIN_TRAP_RE = /\/api(\/v\d+)?\/?$/;
  * Trust-boundary: constructor reads NO global config — container resolves
  * appConfig → constructor args. `baseUrl` is bare origin only; this client
  * appends `/api/v1` once. Paths below are either `/internal/...` (api-key)
- * or user routes that also forward `X-User-Subject`.
+ * or user routes that also forward `X-Delegation-JWT` (when `getDelegationJwt` is set)
+ * or legacy `X-User-Subject` (Escrow carve-out when callback is absent).
  */
 class CoreAccountsStorageClient {
   constructor({
@@ -22,6 +23,7 @@ class CoreAccountsStorageClient {
     maxRetries = 2,
     retryBaseDelayMs = 250,
     apiPath = '/api/v1',
+    getDelegationJwt = null,
   } = {}) {
     const resolvedBaseUrl = (baseUrl ?? '').trim().replace(/\/+$/, '');
     const resolvedApiKey = apiKey ?? null;
@@ -46,6 +48,7 @@ class CoreAccountsStorageClient {
     this.defaultTimeoutMs = timeoutMs;
     this.maxRetries = maxRetries;
     this.retryBaseDelayMs = retryBaseDelayMs;
+    this.getDelegationJwt = typeof getDelegationJwt === 'function' ? getDelegationJwt : null;
   }
 
   #assertEnabled() {
@@ -57,14 +60,32 @@ class CoreAccountsStorageClient {
     }
   }
 
-  #headers(userSubject) {
+  async #headers(userSubject, { delegationJwt } = {}) {
     const headers = {
       'Content-Type': 'application/json',
       'api-key': this.apiKey,
     };
-    if (userSubject) {
-      headers['X-User-Subject'] = userSubject;
+    if (!userSubject) {
+      return headers;
     }
+
+    if (this.getDelegationJwt || delegationJwt) {
+      let token = typeof delegationJwt === 'string' ? delegationJwt.trim() : '';
+      if (!token && this.getDelegationJwt) {
+        const resolved = await this.getDelegationJwt({ userSubject });
+        token = typeof resolved === 'string' ? resolved.trim() : '';
+      }
+      if (!token) {
+        throw new Error(
+          'X-Delegation-JWT is required for user-scoped Core accounts-storage calls '
+          + '(pass options.delegationJwt or constructor getDelegationJwt)',
+        );
+      }
+      headers['X-Delegation-JWT'] = token;
+      return headers;
+    }
+
+    headers['X-User-Subject'] = userSubject;
     return headers;
   }
 
@@ -131,8 +152,11 @@ class CoreAccountsStorageClient {
     const timeout = options.timeoutMs ?? this.defaultTimeoutMs;
     const maxRetries = options.maxRetries ?? this.maxRetries;
     const url = `${this.apiRoot}${path}`;
+    const headers = await this.#headers(userSubject, {
+      delegationJwt: options.delegationJwt,
+    });
     const config = {
-      headers: this.#headers(userSubject),
+      headers,
       timeout,
       params,
       validateStatus: (status) => status >= 200 && status < 300,
