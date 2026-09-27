@@ -54,7 +54,13 @@ During migration, consumers may resolve `baseUrl` from `CORE_ACCOUNTS_STORAGE_AP
 
 ## Contract
 
-OpenAPI: `core-accounts-storage-ms/docs/openapi/internal-api.openapi.yaml`
+Provider OpenAPI `info.version` **0.3.0**: `core-accounts-storage-ms/docs/openapi/internal-api.openapi.yaml`.
+
+This package tag **v0.3.0** speaks that document. A later package tag may keep speaking OpenAPI `0.3.0` until the HTTP surface changes. Package version and `info.version` are not required to stay equal.
+
+Release order for a surface change: update the provider OpenAPI, deploy the provider, tag the client, then bump consumer pins.
+
+Floor: new consumer pins use `#v0.3.0` or newer. Business, Escrow, and Partners already pin `#v0.3.0`. Do not remove an operation that tag calls unless the floor is raised and those pins have moved.
 
 ## Develop
 
