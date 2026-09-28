@@ -1,5 +1,5 @@
 {
-  "openapiVersion": "0.3.1",
+  "openapiVersion": "0.3.2",
   "operations": [
     {
       "method": "POST",
@@ -19,7 +19,11 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": [
+        "400",
+        "401"
+      ]
     },
     {
       "method": "GET",
@@ -39,7 +43,11 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": [
+        "401",
+        "404"
+      ]
     },
     {
       "method": "PUT",
@@ -59,7 +67,12 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": [
+        "400",
+        "401",
+        "404"
+      ]
     },
     {
       "method": "GET",
@@ -79,7 +92,10 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": [
+        "401"
+      ]
     },
     {
       "method": "POST",
@@ -133,7 +149,13 @@
             }
           }
         }
-      }
+      },
+      "errors": [
+        "400",
+        "401",
+        "403",
+        "404"
+      ]
     },
     {
       "method": "GET",
@@ -190,7 +212,10 @@
             }
           }
         }
-      }
+      },
+      "errors": [
+        "404"
+      ]
     },
     {
       "method": "GET",
@@ -244,7 +269,10 @@
             }
           }
         }
-      }
+      },
+      "errors": [
+        "404"
+      ]
     },
     {
       "method": "PATCH",
@@ -298,7 +326,10 @@
             }
           }
         }
-      }
+      },
+      "errors": [
+        "409"
+      ]
     },
     {
       "method": "PATCH",
@@ -352,7 +383,12 @@
             }
           }
         }
-      }
+      },
+      "errors": [
+        "400",
+        "403",
+        "404"
+      ]
     },
     {
       "method": "DELETE",
@@ -372,7 +408,8 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": []
     },
     {
       "method": "POST",
@@ -392,7 +429,15 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": [
+        "401",
+        "403",
+        "404",
+        "409",
+        "502",
+        "503"
+      ]
     },
     {
       "method": "POST",
@@ -412,7 +457,14 @@
             "type": "object"
           }
         }
-      }
+      },
+      "errors": [
+        "401",
+        "404",
+        "409",
+        "502",
+        "503"
+      ]
     },
     {
       "method": "POST",
@@ -432,7 +484,52 @@
             "type": "object"
           }
         }
+      },
+      "errors": [
+        "401",
+        "404",
+        "409",
+        "502",
+        "503"
+      ]
+    }
+  ],
+  "errorSchema": {
+    "type": "object",
+    "required": [
+      "success",
+      "data",
+      "error"
+    ],
+    "properties": {
+      "success": {
+        "type": "boolean"
+      },
+      "data": {
+        "nullable": true
+      },
+      "meta": {
+        "type": "object"
+      },
+      "error": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {}
+          }
+        }
       }
     }
-  ]
+  }
 }
