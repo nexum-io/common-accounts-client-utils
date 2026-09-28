@@ -1,5 +1,5 @@
 {
-  "openapiVersion": "0.3.2",
+  "openapiVersion": "0.3.3",
   "operations": [
     {
       "method": "POST",
@@ -113,7 +113,42 @@
           },
           "data": {
             "type": "object",
+            "description": "Wire shape of `toAccountDto`. `balances` is omitted on list and included on the other account reads and writes.",
+            "required": [
+              "id",
+              "ownedId",
+              "network",
+              "meta",
+              "status",
+              "owners",
+              "threshold",
+              "saltNonce",
+              "tokens",
+              "createdAt",
+              "updatedAt"
+            ],
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedType": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "network": {
+                "type": "string"
+              },
+              "chainId": {
+                "type": "integer",
+                "nullable": true
+              },
               "meta": {
                 "type": "object",
                 "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
@@ -143,6 +178,128 @@
                   "updatedAt": {
                     "type": "string",
                     "format": "date-time"
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "DEPLOYING",
+                  "DEPLOYED",
+                  "FAILED",
+                  "ARCHIVED"
+                ]
+              },
+              "owners": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "threshold": {
+                "type": "integer"
+              },
+              "saltNonce": {
+                "type": "string"
+              },
+              "predictedAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "safeAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "provisionTxHash": {
+                "type": "string",
+                "nullable": true
+              },
+              "deployedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "failureCode": {
+                "type": "string",
+                "nullable": true
+              },
+              "failureMessage": {
+                "type": "string",
+                "nullable": true
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "archivedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "symbol",
+                    "address",
+                    "decimals"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "balances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "tokenAddress",
+                    "raw",
+                    "formatted",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "tokenAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "raw": {
+                      "type": "string"
+                    },
+                    "formatted": {
+                      "type": "string"
+                    },
+                    "blockNumber": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
                   }
                 }
               }
@@ -175,7 +332,42 @@
             "type": "array",
             "items": {
               "type": "object",
+              "description": "Wire shape of `toAccountDto`. `balances` is omitted on list and included on the other account reads and writes.",
+              "required": [
+                "id",
+                "ownedId",
+                "network",
+                "meta",
+                "status",
+                "owners",
+                "threshold",
+                "saltNonce",
+                "tokens",
+                "createdAt",
+                "updatedAt"
+              ],
               "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "ownedId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "ownedType": {
+                  "type": "string"
+                },
+                "externalId": {
+                  "type": "string"
+                },
+                "network": {
+                  "type": "string"
+                },
+                "chainId": {
+                  "type": "integer",
+                  "nullable": true
+                },
                 "meta": {
                   "type": "object",
                   "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
@@ -207,6 +399,128 @@
                       "format": "date-time"
                     }
                   }
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PENDING",
+                    "DEPLOYING",
+                    "DEPLOYED",
+                    "FAILED",
+                    "ARCHIVED"
+                  ]
+                },
+                "owners": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "threshold": {
+                  "type": "integer"
+                },
+                "saltNonce": {
+                  "type": "string"
+                },
+                "predictedAddress": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "safeAddress": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "provisionTxHash": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "deployedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "failureCode": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "failureMessage": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "archivedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "tokens": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "symbol",
+                      "address",
+                      "decimals"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "symbol": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Null address is the native currency."
+                      },
+                      "decimals": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "balances": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "tokenAddress",
+                      "raw",
+                      "formatted",
+                      "updatedAt"
+                    ],
+                    "properties": {
+                      "tokenAddress": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Null address is the native currency."
+                      },
+                      "raw": {
+                        "type": "string"
+                      },
+                      "formatted": {
+                        "type": "string"
+                      },
+                      "blockNumber": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -233,7 +547,42 @@
           },
           "data": {
             "type": "object",
+            "description": "Wire shape of `toAccountDto`. `balances` is omitted on list and included on the other account reads and writes.",
+            "required": [
+              "id",
+              "ownedId",
+              "network",
+              "meta",
+              "status",
+              "owners",
+              "threshold",
+              "saltNonce",
+              "tokens",
+              "createdAt",
+              "updatedAt"
+            ],
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedType": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "network": {
+                "type": "string"
+              },
+              "chainId": {
+                "type": "integer",
+                "nullable": true
+              },
               "meta": {
                 "type": "object",
                 "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
@@ -265,6 +614,128 @@
                     "format": "date-time"
                   }
                 }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "DEPLOYING",
+                  "DEPLOYED",
+                  "FAILED",
+                  "ARCHIVED"
+                ]
+              },
+              "owners": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "threshold": {
+                "type": "integer"
+              },
+              "saltNonce": {
+                "type": "string"
+              },
+              "predictedAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "safeAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "provisionTxHash": {
+                "type": "string",
+                "nullable": true
+              },
+              "deployedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "failureCode": {
+                "type": "string",
+                "nullable": true
+              },
+              "failureMessage": {
+                "type": "string",
+                "nullable": true
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "archivedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "symbol",
+                    "address",
+                    "decimals"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "balances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "tokenAddress",
+                    "raw",
+                    "formatted",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "tokenAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "raw": {
+                      "type": "string"
+                    },
+                    "formatted": {
+                      "type": "string"
+                    },
+                    "blockNumber": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
               }
             }
           }
@@ -290,7 +761,42 @@
           },
           "data": {
             "type": "object",
+            "description": "Wire shape of `toAccountDto`. `balances` is omitted on list and included on the other account reads and writes.",
+            "required": [
+              "id",
+              "ownedId",
+              "network",
+              "meta",
+              "status",
+              "owners",
+              "threshold",
+              "saltNonce",
+              "tokens",
+              "createdAt",
+              "updatedAt"
+            ],
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedType": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "network": {
+                "type": "string"
+              },
+              "chainId": {
+                "type": "integer",
+                "nullable": true
+              },
               "meta": {
                 "type": "object",
                 "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
@@ -320,6 +826,128 @@
                   "updatedAt": {
                     "type": "string",
                     "format": "date-time"
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "DEPLOYING",
+                  "DEPLOYED",
+                  "FAILED",
+                  "ARCHIVED"
+                ]
+              },
+              "owners": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "threshold": {
+                "type": "integer"
+              },
+              "saltNonce": {
+                "type": "string"
+              },
+              "predictedAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "safeAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "provisionTxHash": {
+                "type": "string",
+                "nullable": true
+              },
+              "deployedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "failureCode": {
+                "type": "string",
+                "nullable": true
+              },
+              "failureMessage": {
+                "type": "string",
+                "nullable": true
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "archivedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "symbol",
+                    "address",
+                    "decimals"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "balances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "tokenAddress",
+                    "raw",
+                    "formatted",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "tokenAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "raw": {
+                      "type": "string"
+                    },
+                    "formatted": {
+                      "type": "string"
+                    },
+                    "blockNumber": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
                   }
                 }
               }
@@ -347,7 +975,42 @@
           },
           "data": {
             "type": "object",
+            "description": "Wire shape of `toAccountDto`. `balances` is omitted on list and included on the other account reads and writes.",
+            "required": [
+              "id",
+              "ownedId",
+              "network",
+              "meta",
+              "status",
+              "owners",
+              "threshold",
+              "saltNonce",
+              "tokens",
+              "createdAt",
+              "updatedAt"
+            ],
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedType": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "network": {
+                "type": "string"
+              },
+              "chainId": {
+                "type": "integer",
+                "nullable": true
+              },
               "meta": {
                 "type": "object",
                 "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
@@ -377,6 +1040,128 @@
                   "updatedAt": {
                     "type": "string",
                     "format": "date-time"
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "DEPLOYING",
+                  "DEPLOYED",
+                  "FAILED",
+                  "ARCHIVED"
+                ]
+              },
+              "owners": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "threshold": {
+                "type": "integer"
+              },
+              "saltNonce": {
+                "type": "string"
+              },
+              "predictedAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "safeAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "provisionTxHash": {
+                "type": "string",
+                "nullable": true
+              },
+              "deployedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "failureCode": {
+                "type": "string",
+                "nullable": true
+              },
+              "failureMessage": {
+                "type": "string",
+                "nullable": true
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "archivedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "symbol",
+                    "address",
+                    "decimals"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "balances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "tokenAddress",
+                    "raw",
+                    "formatted",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "tokenAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "raw": {
+                      "type": "string"
+                    },
+                    "formatted": {
+                      "type": "string"
+                    },
+                    "blockNumber": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
                   }
                 }
               }
@@ -405,7 +1190,198 @@
             "type": "boolean"
           },
           "data": {
-            "type": "object"
+            "type": "object",
+            "description": "Wire shape of `toAccountDto`. `balances` is omitted on list and included on the other account reads and writes.",
+            "required": [
+              "id",
+              "ownedId",
+              "network",
+              "meta",
+              "status",
+              "owners",
+              "threshold",
+              "saltNonce",
+              "tokens",
+              "createdAt",
+              "updatedAt"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "ownedType": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "network": {
+                "type": "string"
+              },
+              "chainId": {
+                "type": "integer",
+                "nullable": true
+              },
+              "meta": {
+                "type": "object",
+                "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
+                "required": [
+                  "shortId",
+                  "name",
+                  "createdAt",
+                  "updatedAt"
+                ],
+                "properties": {
+                  "shortId": {
+                    "type": "string",
+                    "pattern": "^acc_[0-9A-HJKMNP-TV-Z]{8}$",
+                    "example": "acc_7K3M9P2Q"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "DEPLOYING",
+                  "DEPLOYED",
+                  "FAILED",
+                  "ARCHIVED"
+                ]
+              },
+              "owners": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "threshold": {
+                "type": "integer"
+              },
+              "saltNonce": {
+                "type": "string"
+              },
+              "predictedAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "safeAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "provisionTxHash": {
+                "type": "string",
+                "nullable": true
+              },
+              "deployedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "failureCode": {
+                "type": "string",
+                "nullable": true
+              },
+              "failureMessage": {
+                "type": "string",
+                "nullable": true
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "archivedAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "symbol",
+                    "address",
+                    "decimals"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "balances": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "tokenAddress",
+                    "raw",
+                    "formatted",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "tokenAddress": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Null address is the native currency."
+                    },
+                    "raw": {
+                      "type": "string"
+                    },
+                    "formatted": {
+                      "type": "string"
+                    },
+                    "blockNumber": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
