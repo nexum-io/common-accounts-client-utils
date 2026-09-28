@@ -14,7 +14,7 @@ Product adapters and domain error maps stay in each MS.
 ## Install
 
 ```bash
-npm install github:nexum-io/common-accounts-client-utils#v0.3.0
+npm install github:nexum-io/common-accounts-client-utils#v0.4.0
 ```
 
 ## Usage
@@ -56,7 +56,7 @@ During migration, consumers may resolve `baseUrl` from `CORE_ACCOUNTS_STORAGE_AP
 
 Provider OpenAPI `info.version` **0.3.0**: `core-accounts-storage-ms/docs/openapi/internal-api.openapi.yaml`.
 
-This package tag **v0.3.0** speaks that document. A later package tag may keep speaking OpenAPI `0.3.0` until the HTTP surface changes. Package version and `info.version` are not required to stay equal.
+Package tag **v0.3.0** speaks that document. Tag **v0.4.0** still speaks OpenAPI `0.3.0` and adds outbound `x-correlation-id` / `x-request-id` (ALS `correlation_id` when `@nexum-io/common-observability-logging-package` is installed in the host; otherwise a UUID). The observability package is an optional peer. A later package tag may keep speaking OpenAPI `0.3.0` until the HTTP surface changes. Package version and `info.version` are not required to stay equal.
 
 Release order for a surface change: update the provider OpenAPI, deploy the provider, tag the client, then bump consumer pins.
 
