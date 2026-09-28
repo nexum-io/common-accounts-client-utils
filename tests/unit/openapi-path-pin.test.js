@@ -35,7 +35,7 @@ function recordedCalls() {
   return calls.sort((a, b) => `${a[0]} ${a[1]}`.localeCompare(`${b[0]} ${b[1]}`));
 }
 
-test('response-schema fixture openapiVersion is 0.3.1', () => {
+test('response-schema fixture openapiVersion is 0.3.2', () => {
   expect(fixture.openapiVersion).toBe('0.3.2');
   expect(fixture.errorSchema).toEqual(expect.objectContaining({
     type: 'object',
