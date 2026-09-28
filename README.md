@@ -54,13 +54,13 @@ During migration, consumers may resolve `baseUrl` from `CORE_ACCOUNTS_STORAGE_AP
 
 ## Contract
 
-Provider OpenAPI `info.version` **0.3.0**: `core-accounts-storage-ms/docs/openapi/internal-api.openapi.yaml`.
+Provider OpenAPI `info.version` **0.3.1**: `core-accounts-storage-ms/docs/openapi/internal-api.openapi.yaml`.
 
-Package tag **v0.3.0** speaks that document. Tag **v0.4.0** still speaks OpenAPI `0.3.0` and adds outbound `x-correlation-id` / `x-request-id` (ALS `correlation_id` when `@nexum-io/common-observability-logging-package` is installed in the host; otherwise a UUID). The observability package is an optional peer. A later package tag may keep speaking OpenAPI `0.3.0` until the HTTP surface changes. Package version and `info.version` are not required to stay equal.
+Package tag **v0.3.0** spoke OpenAPI `0.3.0`. Tag **v0.4.0** speaks OpenAPI **`0.3.1`** (same wire; success envelopes documented) and adds outbound `x-correlation-id` / `x-request-id` (ALS `correlation_id` when `@nexum-io/common-observability-logging-package` is installed in the host; otherwise a UUID). The observability package is an optional peer. Response-schema fixtures live under `tests/unit/fixtures/accounts-client-response-schemas.json` and must stay in sync with the provider fixture. A later package tag may keep speaking OpenAPI `0.3.1` until the HTTP surface changes. Package version and `info.version` are not required to stay equal.
 
 Release order for a surface change: update the provider OpenAPI, deploy the provider, tag the client, then bump consumer pins.
 
-Floor: new consumer pins use `#v0.3.0` or newer. Business, Escrow, and Partners already pin `#v0.3.0`. Do not remove an operation that tag calls unless the floor is raised and those pins have moved.
+Floor: new consumer pins use `#v0.3.0` or newer. Business, Escrow, and Partners already pin `#v0.3.0` / `#v0.4.0`. Do not remove an operation that tag calls unless the floor is raised and those pins have moved.
 
 ## Develop
 

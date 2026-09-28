@@ -1,0 +1,438 @@
+{
+  "openapiVersion": "0.3.1",
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/internal/owned",
+      "successStatus": "201",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/owned",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/internal/owned/{id}/members",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/networks",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/accounts",
+      "successStatus": "201",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
+                "required": [
+                  "shortId",
+                  "name",
+                  "createdAt",
+                  "updatedAt"
+                ],
+                "properties": {
+                  "shortId": {
+                    "type": "string",
+                    "pattern": "^acc_[0-9A-HJKMNP-TV-Z]{8}$",
+                    "example": "acc_7K3M9P2Q"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/accounts",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
+                  "required": [
+                    "shortId",
+                    "name",
+                    "createdAt",
+                    "updatedAt"
+                  ],
+                  "properties": {
+                    "shortId": {
+                      "type": "string",
+                      "pattern": "^acc_[0-9A-HJKMNP-TV-Z]{8}$",
+                      "example": "acc_7K3M9P2Q"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/accounts/{id}",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
+                "required": [
+                  "shortId",
+                  "name",
+                  "createdAt",
+                  "updatedAt"
+                ],
+                "properties": {
+                  "shortId": {
+                    "type": "string",
+                    "pattern": "^acc_[0-9A-HJKMNP-TV-Z]{8}$",
+                    "example": "acc_7K3M9P2Q"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/accounts/{id}",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
+                "required": [
+                  "shortId",
+                  "name",
+                  "createdAt",
+                  "updatedAt"
+                ],
+                "properties": {
+                  "shortId": {
+                    "type": "string",
+                    "pattern": "^acc_[0-9A-HJKMNP-TV-Z]{8}$",
+                    "example": "acc_7K3M9P2Q"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/accounts/{id}/meta",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "description": "Embedded in every account response (DEV-340). `shortId` is server-generated and immutable.",
+                "required": [
+                  "shortId",
+                  "name",
+                  "createdAt",
+                  "updatedAt"
+                ],
+                "properties": {
+                  "shortId": {
+                    "type": "string",
+                    "pattern": "^acc_[0-9A-HJKMNP-TV-Z]{8}$",
+                    "example": "acc_7K3M9P2Q"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/accounts/{id}",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/accounts/{id}/provision",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/accounts/{id}/balances/sync",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/accounts/{id}/reconcile",
+      "successStatus": "200",
+      "schema": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}
