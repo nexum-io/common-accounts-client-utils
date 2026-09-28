@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const { CoreAccountsStorageError } = require('./core-accounts-storage-error');
+const { outboundTraceHeaders } = require('./outbound-trace-headers');
 const { withRetry } = require('./with-retry');
 
 const BARE_ORIGIN_TRAP_RE = /\/api(\/v\d+)?\/?$/;
@@ -64,6 +65,7 @@ class CoreAccountsStorageClient {
     const headers = {
       'Content-Type': 'application/json',
       'api-key': this.apiKey,
+      ...outboundTraceHeaders(),
     };
     if (!userSubject) {
       return headers;

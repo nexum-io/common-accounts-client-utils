@@ -1,4 +1,12 @@
 jest.mock('axios');
+jest.mock('@nexum-io/common-observability-logging-package', () => {
+  const { AsyncLocalStorage } = require('async_hooks');
+  const als = new AsyncLocalStorage();
+  return {
+    getCorrelationContext: () => als.getStore() || {},
+    runWithCorrelation: (context, fn) => als.run({ ...(als.getStore() || {}), ...context }, fn),
+  };
+}, { virtual: true });
 const axios = require('axios');
 const { CoreAccountsStorageClient, CoreAccountsStorageError } = require('../../src');
 
@@ -66,7 +74,10 @@ describe('CoreAccountsStorageClient', () => {
         'http://accounts-storage.example:8093/api/v1/internal/owned',
         { ownedType: 'company', externalId: 'ext-1' },
         expect.objectContaining({
-          headers: { 'Content-Type': 'application/json', 'api-key': 'test-api-key' },
+          headers: expect.objectContaining({
+            'Content-Type': 'application/json',
+            'api-key': 'test-api-key',
+          }),
         })
       );
       const headers = axios.post.mock.calls[0][2].headers;
@@ -304,5 +315,24 @@ describe('CoreAccountsStorageClient', () => {
         CoreAccountsStorageError
       );
     });
+  });
+
+  test('sends the same correlation id and a new request id on each call', async () => {
+    const { runWithCorrelation } = require('@nexum-io/common-observability-logging-package');
+    axios.post.mockResolvedValue({ data: { data: { id: 'owned-1' } } });
+    const client = buildClient();
+
+    await runWithCorrelation({ correlation_id: 'corr-accounts' }, async () => {
+      await client.registerOwned({ ownedType: 'user', externalId: 'u1' });
+      await client.registerOwned({ ownedType: 'user', externalId: 'u2' });
+    });
+
+    const first = axios.post.mock.calls[0][2].headers;
+    const second = axios.post.mock.calls[1][2].headers;
+    expect(first['x-correlation-id']).toBe('corr-accounts');
+    expect(second['x-correlation-id']).toBe('corr-accounts');
+    expect(first['x-request-id']).not.toBe(second['x-request-id']);
+    expect(first['api-key']).toBe('test-api-key');
+    expect(first['X-User-Subject']).toBeUndefined();
   });
 });
