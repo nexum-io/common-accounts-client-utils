@@ -36,7 +36,11 @@ function recordedCalls() {
 }
 
 test('response-schema fixture openapiVersion is 0.3.1', () => {
-  expect(fixture.openapiVersion).toBe('0.3.1');
+  expect(fixture.openapiVersion).toBe('0.3.2');
+  expect(fixture.errorSchema).toEqual(expect.objectContaining({
+    type: 'object',
+    required: expect.arrayContaining(['success', 'data', 'error']),
+  }));
 });
 
 test('fixture operations match the Accounts client path pin list', () => {
