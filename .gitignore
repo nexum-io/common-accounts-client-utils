@@ -7,3 +7,5 @@ coverage/
 !.env.example
 .ai-task/
 .superpowers/
+.worktrees/
+.ai-sdd/
