@@ -19,8 +19,11 @@ const OWNED_ID = 'owned-1';
 
 function templatePath(url) {
   const pathOnly = url.replace('http://accounts.example:8093/api/v1', '');
+  // Collection create/list use a trailing slash on the wire (edge redirect guard);
+  // OpenAPI pins the unsuffixed path.
   return pathOnly
     .replace(`/accounts/${ACCOUNT_ID}`, '/accounts/{id}')
+    .replace(/\/accounts\/?$/, '/accounts')
     .replace(`/internal/owned/${OWNED_ID}`, '/internal/owned/{id}');
 }
 
