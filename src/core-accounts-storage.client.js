@@ -157,10 +157,16 @@ class CoreAccountsStorageClient {
     const headers = await this.#headers(userSubject, {
       delegationJwt: options.delegationJwt,
     });
+    // maxRedirects: 0 — Stage edge has rewritten POST /accounts → GET /accounts/
+    // (301/302), which then fails list query validation (ownedType/externalId).
+    // Collection calls use a trailing slash (see createAccount/listAccounts) so the
+    // edge does not redirect; if a redirect still appears, fail closed instead of
+    // silently converting POST→GET.
     const config = {
       headers,
       timeout,
       params,
+      maxRedirects: 0,
       validateStatus: (status) => status >= 200 && status < 300,
     };
 
@@ -206,11 +212,12 @@ class CoreAccountsStorageClient {
   }
 
   createAccount(userSubject, body) {
-    return this.#request('POST', '/accounts', { userSubject, body });
+    // Trailing slash: avoid edge 301/302 on /accounts that axios would follow as GET.
+    return this.#request('POST', '/accounts/', { userSubject, body });
   }
 
   listAccounts(userSubject, query) {
-    return this.#request('GET', '/accounts', { userSubject, params: query });
+    return this.#request('GET', '/accounts/', { userSubject, params: query });
   }
 
   getAccount(userSubject, accountId) {

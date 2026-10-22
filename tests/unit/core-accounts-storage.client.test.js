@@ -160,7 +160,7 @@ describe('CoreAccountsStorageClient', () => {
   });
 
   describe('createAccount', () => {
-    test('forwards X-User-Subject and posts /accounts', async () => {
+    test('forwards X-User-Subject and posts /accounts/ (trailing slash)', async () => {
       axios.post.mockResolvedValue({
         data: { success: true, data: { id: 'acct-1', status: 'PENDING' } },
       });
@@ -173,9 +173,10 @@ describe('CoreAccountsStorageClient', () => {
         threshold: 1,
       });
       expect(axios.post).toHaveBeenCalledWith(
-        'http://accounts-storage.example:8093/api/v1/accounts',
+        'http://accounts-storage.example:8093/api/v1/accounts/',
         expect.any(Object),
         expect.objectContaining({
+          maxRedirects: 0,
           headers: expect.objectContaining({
             'api-key': 'test-api-key',
             'X-User-Subject': 'user-1',
@@ -186,7 +187,7 @@ describe('CoreAccountsStorageClient', () => {
   });
 
   describe('listAccounts', () => {
-    test('GETs /accounts with query params', async () => {
+    test('GETs /accounts/ with query params (trailing slash)', async () => {
       axios.get.mockResolvedValue({ data: { data: [{ id: 'a1' }] } });
       const client = buildClient();
       const result = await client.listAccounts('user-1', {
@@ -195,8 +196,9 @@ describe('CoreAccountsStorageClient', () => {
       });
       expect(result).toEqual([{ id: 'a1' }]);
       expect(axios.get).toHaveBeenCalledWith(
-        'http://accounts-storage.example:8093/api/v1/accounts',
+        'http://accounts-storage.example:8093/api/v1/accounts/',
         expect.objectContaining({
+          maxRedirects: 0,
           params: { ownedType: 'user', externalId: 'user-1' },
           headers: expect.objectContaining({ 'X-User-Subject': 'user-1' }),
         })
